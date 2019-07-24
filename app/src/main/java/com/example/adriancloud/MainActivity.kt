@@ -2,6 +2,7 @@ package com.example.adriancloud
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -9,6 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        
+        Toast.makeText(this, "primer paso kotlin", Toast.LENGTH_SHORT).show();
     }
 }
