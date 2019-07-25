@@ -3,4 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="semi_transparent">#E6FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="darkGray">#4b4b4b</color>
+    <color name="midGray">#848484</color>
+    <color name="lightGray">#cacfcfcf</color>
+
 </resources>

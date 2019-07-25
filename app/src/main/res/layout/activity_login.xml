@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".login.LoginActivity">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="64dp"
+            android:text="@string/bienvenidos_a"
+            android:textStyle="italic"
+            android:textSize="24sp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="111dp"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textStyle="italic"
+            android:textSize="32sp" />
+
+    <ImageView
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/zelda_logo"
+            android:tint="@color/lightGray" />
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="170dp"
+            android:backgroundTint="@color/semi_transparent"
+            app:cardCornerRadius="20dp">
+
+        <EditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:hint="@string/username"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:lines="1"
+                android:nextFocusForward="@id/edit_password"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="240dp"
+            android:backgroundTint="@color/semi_transparent"
+            app:cardCornerRadius="20dp">
+
+        <EditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:hint="@string/contrase_a"
+                android:lines="1"
+                android:inputType="textPassword"
+                android:textSize="20sp"
+                android:textStyle="bold|italic" />
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+            android:id="@+id/bttn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="18dp"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:backgroundTint="@android:color/black"
+            android:textStyle="italic"/>
+
+    <TextView
+            android:id="@+id/bttn_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="160dp"
+            android:backgroundTint="@color/transparent"
+            android:text="@string/olvide_la_contrase_a"
+            android:textSize="18sp"/>
+
+    <ProgressBar
+            android:id="@+id/login_progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="116dp"
+            android:visibility="gone"/>
+
+
+</RelativeLayout>
