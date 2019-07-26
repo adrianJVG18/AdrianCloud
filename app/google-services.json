@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "301651811807",
+    "firebase_url": "https://adriancloudplayground-52810.firebaseio.com",
+    "project_id": "adriancloudplayground-52810",
+    "storage_bucket": "adriancloudplayground-52810.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301651811807:android:872faee474d20185",
+        "android_client_info": {
+          "package_name": "com.example.adriancloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301651811807-co70v8hs817cjq72rjkkefotd13va103.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAWXYYn1Palf9mSqYZqAGTVrldUbEkSzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301651811807-co70v8hs817cjq72rjkkefotd13va103.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
