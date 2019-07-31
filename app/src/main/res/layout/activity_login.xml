@@ -44,7 +44,7 @@
             app:cardCornerRadius="20dp">
 
         <EditText
-                android:id="@+id/edit_username"
+                android:id="@+id/edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
@@ -110,9 +110,9 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="116dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="96dp"
             android:visibility="gone"/>
 
 
