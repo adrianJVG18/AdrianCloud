@@ -4,7 +4,7 @@
     <string name="username">Username</string>
     <string name="contrase_a">Contraseña</string>
     <string name="login">Login</string>
-    <string name="olvide_la_contrase_a">Olvide la Contraseña</string>
+    <string name="olvide_la_contrase_a"><u>Olvide la Contraseña</u></string>
     <string name="bienvenidos_a">Bienvenidos a</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -20,4 +20,6 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="sign_out">Sign out</string>
+    <string name="email">Email</string>
 </resources>

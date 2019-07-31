@@ -5,15 +5,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
 import com.example.adriancloud.R
 import com.example.adriancloud.utils.show
 import com.google.firebase.auth.FirebaseAuth
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
+import android.widget.*
 import com.example.adriancloud.home.HomeActivity
 
 
@@ -37,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         activateLoginButton()
-
+        activateForgotPassword()
     }
 
     //Tap to dismiss
@@ -65,7 +62,6 @@ class LoginActivity : AppCompatActivity() {
             val isPassValid = checkIfTextFilledCorrectly("Passowrd", pass, 4, 20)
 
             if (isEmailValid == VALID_TEXT && isPassValid == VALID_TEXT) {
-                showMessage("Attempting to Login")
                 auth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -82,6 +78,16 @@ class LoginActivity : AppCompatActivity() {
             progressBar.visibility = View.GONE
         }
 
+    }
+    fun activateForgotPassword(){
+        val tvForgotPass : TextView = findViewById(R.id.bttn_forgot_password)
+        tvForgotPass.setOnClickListener{
+            val editEmail : EditText = findViewById(R.id.edit_email)
+            val editPass : EditText = findViewById(R.id.edit_password)
+
+            editEmail.setText("adrian.jvg.18@gmail.com")
+            editPass.setText("123456")
+        }
     }
 
     public override fun onStart() {
