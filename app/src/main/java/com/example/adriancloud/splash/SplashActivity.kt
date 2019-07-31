@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
         val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         decorView.systemUiVisibility = uiOptions
 
-        val logo = findViewById<ImageView>(R.id.splash_ImageView_icon)
+        val logo = findViewById<View>(R.id.splash_ImageView_icon)
         val transicion = AnimationUtils.loadAnimation(this, R.anim.transicion)
         logo.startAnimation(transicion)
 
