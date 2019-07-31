@@ -2,7 +2,6 @@ package com.example.adriancloud.login
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -16,7 +15,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.example.adriancloud.home.HomeActivity
-import com.google.firebase.auth.FirebaseUser
 
 
 class LoginActivity : AppCompatActivity() {
@@ -38,12 +36,7 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        val editEmail = findViewById<EditText>(R.id.edit_email)
         activateLoginButton()
-
-        // Show Keybouard to after 0.6 secs
-        show(editEmail, this, 600)
-
 
     }
 
@@ -78,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             val user = auth.currentUser
-                            completeLogin(user)
+                            completeLogin()
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -96,7 +89,11 @@ class LoginActivity : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser!=null){
-            completeLogin(currentUser)
+            completeLogin()
+        } else {
+            // Show Keybouard to after 0.6 secs
+            val editEmail = findViewById<EditText>(R.id.edit_email)
+            show(editEmail, this, 600)
         }
     }
 
@@ -119,8 +116,9 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun completeLogin(user: FirebaseUser?){
+    private fun completeLogin(){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
