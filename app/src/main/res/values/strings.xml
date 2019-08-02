@@ -22,4 +22,15 @@
     <string name="menu_send">Send</string>
     <string name="sign_out">Sign out</string>
     <string name="email">Email</string>
+    <string name="threading_lab">Threading Lab</string>
+    <string name="api_wrapper">Api Wrapper</string>
+    <string name="picture_studio">Picture Studio</string>
+    <string name="lambda_reactor">Lambda Reactor</string>
+    <string name="testing_message">Un texto de prueba, esto tiene fines de testeo, si veo esto, algo codifique mal
+    </string>
+    <string name="titulo">Titulo</string>
+    <string name="titulo">Titulo</string>
+    <string name="cuerpo">Cuerpo</string>
+    <string name="agregar_post">Agregar Post</string>
+    <string name="a_ada_un_nuevo_post">Añada un nuevo Post</string>
 </resources>

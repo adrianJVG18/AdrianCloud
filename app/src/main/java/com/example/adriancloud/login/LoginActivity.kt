@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
             }
-            progressBar.visibility = View.GONE
+            progressBar.visibility = View.INVISIBLE
         }
 
     }
