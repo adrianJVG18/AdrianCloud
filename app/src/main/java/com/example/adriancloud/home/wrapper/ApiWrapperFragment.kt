@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,14 +16,12 @@ import com.google.firebase.database.FirebaseDatabase
 
 class ApiWrapperFragment : Fragment() {
 
-    val ADD_POST_TAG = "Add Post"
+    val POST_FORM_TAG = "Post Form"
 
     private var mDatabase: DatabaseReference? = null
     private var mMessageReference: DatabaseReference? = null
 
-    interface ICallAddPostForm {
-        fun callAddPostFrom()
-    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_api_wrapper, container, false)
@@ -36,8 +35,7 @@ class ApiWrapperFragment : Fragment() {
 
         val bttnAddPost : FloatingActionButton = view.findViewById(R.id.bttn_call_addpost_form)
         bttnAddPost.setOnClickListener {
-            //val callAddPost = fragmentManager.beginTransaction() .add(AddPostFragment(), ADD_POST_TAG) .addToBackStack(ADD_POST_TAG) .commit()
-
+            callPostForm.callAddPostFrom(PostFormFragment.ADDING_POST)
         }
 
         val context = activity!!.baseContext
@@ -46,8 +44,6 @@ class ApiWrapperFragment : Fragment() {
 
         recyclerView.adapter = PostAdapter(loadPosts(), context)
     }
-
-
 
     fun loadPosts() : ArrayList<Post>{
         val posts : ArrayList<Post> = ArrayList()
@@ -58,4 +54,18 @@ class ApiWrapperFragment : Fragment() {
 
         return posts
     }
+
+
+    // Declaraciones necesarias para conectar este fragment con su activity
+
+    lateinit var callPostForm: ICallPostForm
+
+    fun setOnCalledPostFormListener(callback: ICallPostForm) {
+        this.callPostForm = callback
+    }
+
+    interface ICallPostForm {
+        fun callAddPostFrom(postFormMode : Int)
+    }
+
 }

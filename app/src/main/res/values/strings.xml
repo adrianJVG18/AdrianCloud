@@ -29,8 +29,8 @@
     <string name="testing_message">Un texto de prueba, esto tiene fines de testeo, si veo esto, algo codifique mal
     </string>
     <string name="titulo">Titulo</string>
-    <string name="titulo">Titulo</string>
     <string name="cuerpo">Cuerpo</string>
     <string name="agregar_post">Agregar Post</string>
     <string name="a_ada_un_nuevo_post">Añada un nuevo Post</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

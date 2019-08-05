@@ -12,20 +12,26 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.adriancloud.R
 import com.example.adriancloud.home.lambda.LambdaReactorFragment
+import com.example.adriancloud.home.wrapper.PostFormFragment
 import com.example.adriancloud.home.wrapper.ApiWrapperFragment
 import com.example.adriancloud.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : AppCompatActivity(),
+    NavigationView.OnNavigationItemSelectedListener,
+    ApiWrapperFragment.ICallPostForm,
+    PostFormFragment.IPostFormReponse {
+
 
     private lateinit var auth: FirebaseAuth
 
     private val API_WRAPPER_TAG : String = "Api Wrapper"
-    private val PICTURE_STUDIO_TAG : String = "Picture Studio"
     private val LAMBDA_REACTOR_TAG : String = "Lambda Reactor"
+    private val POST_FORM_TAG : String = "Post Form"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,13 +111,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fragment = ApiWrapperFragment()
                 tag = API_WRAPPER_TAG
             }
-            R.id.nav_nav_threading_lab -> {
-
-            }
-            R.id.nav_picture_studio -> {
-                tag = PICTURE_STUDIO_TAG
-            }
             R.id.nav_lambda_reactor -> {
+                fragment = LambdaReactorFragment()
                 tag = LAMBDA_REACTOR_TAG
             }
         }
@@ -126,5 +127,42 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    // SetListener de las acciones del fragment actual
+    override fun onAttachFragment(fragment: Fragment) {
+        when (fragment) {
+            is ApiWrapperFragment -> fragment.setOnCalledPostFormListener(this)
+            is PostFormFragment -> fragment.setOnPostResponseListener(this)
+        }
+    }
+
+    // ApiWrapper action
+    override fun callAddPostFrom(postFormMode : Int) {
+
+        val postFormFragment = PostFormFragment()
+        postFormFragment.postFormMode = postFormMode
+
+        supportFragmentManager.beginTransaction()
+            .hide(supportFragmentManager.findFragmentByTag(API_WRAPPER_TAG)!!)
+            .add(R.id.home_container, postFormFragment, POST_FORM_TAG)
+            .addToBackStack(POST_FORM_TAG)
+            .commit()
+    }
+
+    // PostForm action
+    override fun returnedNewPost() {
+        val apiWrapperFrgmnt = supportFragmentManager.findFragmentByTag(API_WRAPPER_TAG) as ApiWrapperFragment
+        val postFormFrgmnt = supportFragmentManager.findFragmentByTag(POST_FORM_TAG) as PostFormFragment
+
+        supportFragmentManager.beginTransaction()
+            .remove(postFormFrgmnt)
+            .show(apiWrapperFrgmnt)
+            .commit()
+    }
+
+    // PostForm action
+    override fun canceledNewPost() {
+        onBackPressed()
     }
 }

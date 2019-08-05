@@ -11,4 +11,7 @@
     <color name="midGray">#848484</color>
     <color name="lightGray">#cacfcfcf</color>
 
+    <color name="yellowAsFuck">#FFEA00</color>
+    <color name="softRed">#E53935</color>
+
 </resources>
