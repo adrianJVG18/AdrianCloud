@@ -11,6 +11,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".home.settings.UpdateUserActivity">
+        </activity>
         <activity
                 android:name=".home.HomeActivity"
                 android:label="@string/title_activity_home"

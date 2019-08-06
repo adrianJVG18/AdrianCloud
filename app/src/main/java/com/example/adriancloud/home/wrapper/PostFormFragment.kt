@@ -7,20 +7,23 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.adriancloud.R
+
+
 
 class PostFormFragment : Fragment() {
 
     // Asi se instancia cosas static
     companion object {
         val ADDING_POST: Int = 1
-        val MODIFYING_POST: Int = 2
+        val UPDATE_POST: Int = 2
     }
 
-    internal var postFormMode: Int
-        get() { return postFormMode }
-        set(value) {this.postFormMode = value}
+    var FORM_MODE: Int = 0
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_post_form, container, false)
@@ -42,20 +45,24 @@ class PostFormFragment : Fragment() {
             val body: String = bodyEdit.text.toString()
 
             if (title.isNotEmpty()) {
-                var post: Post = Post(title, body)
-                sendPost(post)
-                postResponse.returnedNewPost()
+                val post = Post(title, body)
+                postResponse.onCreatedPost(post)
+            } else {
+                val errorMessage = "El post al menos debe contener un titulo!"
+                Toast.makeText(context!!.applicationContext, errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
 
         cancelButton.setOnClickListener {
-            postResponse.canceledNewPost()
+            postResponse.onCanceledPost(FORM_MODE)
         }
 
     }
 
-    private fun sendPost(post: Post) {
-        //TODO
+
+
+    private fun createPost(post: Post) {
+
     }
 
     // declaraciones necesarias para conectar conectar este fragment con su activity
@@ -67,7 +74,8 @@ class PostFormFragment : Fragment() {
     }
 
     interface IPostFormReponse {
-        fun returnedNewPost()
-        fun canceledNewPost()
+        fun onCreatedPost(post: Post)
+        fun onUpdatedPost(post: Post)
+        fun onCanceledPost(mode: Int)
     }
 }
