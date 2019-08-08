@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.adriancloud.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class ApiWrapperFragment : Fragment() {
 
     val POST_FORM_TAG = "Post Form"
 
-    private var mDatabase: DatabaseReference? = null
-    private var mMessageReference: DatabaseReference? = null
+    private var dataBase: DatabaseReference? = null
     private lateinit var auth: FirebaseAuth
 
+    lateinit var recyclerView: RecyclerView
+    lateinit var postAdapter: PostAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_api_wrapper, container, false)
@@ -30,8 +30,9 @@ class ApiWrapperFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mDatabase = FirebaseDatabase.getInstance().reference
-        mMessageReference = FirebaseDatabase.getInstance().getReference("message")
+        dataBase = FirebaseDatabase.getInstance().reference
+
+
         auth = FirebaseAuth.getInstance()
 
 
@@ -50,28 +51,67 @@ class ApiWrapperFragment : Fragment() {
         }
 
         val context = activity!!.baseContext
-        val recyclerView: RecyclerView = view.findViewById(R.id.apiwrapper_recyclerView)
+        recyclerView = view.findViewById(R.id.apiwrapper_recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        recyclerView.adapter = PostAdapter(loadPosts(), context)
+        val posts = ArrayList<Post>()
+        postAdapter = PostAdapter(posts, context)
+        recyclerView.adapter = postAdapter
+        loadPosts()
     }
+
+
 
     fun loadPosts(): ArrayList<Post> {
         val posts: ArrayList<Post> = ArrayList()
+        val userId = auth.currentUser!!.uid
 
-        posts.add(Post("primer post", "un comentario"))
-        posts.add(Post("algo 1", "alguito"))
-        posts.add(Post("algo 2", "algodon"))
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                val post = dataSnapshot.getValue(Post::class.java)
+                if (post != null) {
+                    posts.add(post)
+                    postAdapter.notifyDataSetChanged()
+                }
 
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        dataBase!!.child("/user-posts/$userId/").addValueEventListener(postListener)
         return posts
     }
 
-    fun onPostCreated(post: Post) {
-        val user = auth.currentUser.toString()
-        
-        mDatabase!!.child("posts").setValue("Posts")
+    fun onPostCreate(post: Post) {
+        val userId = auth.currentUser!!.uid
+        val key = dataBase!!.child("posts").child(userId).push().key
 
-        mDatabase!!.child("posts").child(user)
+        if (key == null) {
+            tostear("algo salio mal con la key para el post")
+            return
+        }
+        post.uid = userId
+        post.author = auth.currentUser!!.displayName.toString()
+        val postValues = post.toMap()
+
+        val childUpdates = HashMap<String, Any?>()
+        childUpdates["/user-posts/$userId/$key"] = postValues
+
+        dataBase!!.updateChildren(childUpdates).addOnSuccessListener {
+            tostear("Se escribio exitosamente")
+        }.addOnFailureListener{
+            tostear("Algo definitivamente no esta saliendo bien")
+        }
+
+    }
+
+
+
+    fun tostear (message: String){
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
 
@@ -88,3 +128,5 @@ class ApiWrapperFragment : Fragment() {
         fun callUpdateProfile()
     }
 }
+
+

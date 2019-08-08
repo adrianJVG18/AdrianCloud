@@ -174,7 +174,7 @@ class HomeActivity : AppCompatActivity(),
             .show(apiWrapperFrgmnt)
             .commit()
 
-        apiWrapperFrgmnt.onPostCreated(post)
+        apiWrapperFrgmnt.onPostCreate(post)
     }
 
     // PostForm action
