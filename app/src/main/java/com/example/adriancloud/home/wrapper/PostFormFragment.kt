@@ -56,7 +56,6 @@ class PostFormFragment : Fragment() {
         cancelButton.setOnClickListener {
             postResponse.onCanceledPost(FORM_MODE)
         }
-
     }
 
 

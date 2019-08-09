@@ -12,12 +12,20 @@ import com.example.adriancloud.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
+
+
 
 class ApiWrapperFragment : Fragment() {
 
     val POST_FORM_TAG = "Post Form"
 
-    private var dataBase: DatabaseReference? = null
+    var DATABASE_POSTS_REF = ""
+
+    private lateinit var dataBaseRef: DatabaseReference
+    private lateinit var dataBase: FirebaseDatabase
     private lateinit var auth: FirebaseAuth
 
     lateinit var recyclerView: RecyclerView
@@ -30,7 +38,11 @@ class ApiWrapperFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataBase = FirebaseDatabase.getInstance().reference
+        val userId = auth.currentUser!!.uid
+        DATABASE_POSTS_REF = "/user-posts/$userId/"
+
+        dataBase = FirebaseDatabase.getInstance()
+        dataBaseRef = dataBase.getReference(DATABASE_POSTS_REF)
 
 
         auth = FirebaseAuth.getInstance()
@@ -39,11 +51,7 @@ class ApiWrapperFragment : Fragment() {
         val bttnAddPost: FloatingActionButton = view.findViewById(R.id.bttn_call_addpost_form)
         bttnAddPost.setOnClickListener {
             if (auth.currentUser?.displayName == null) {
-                Toast.makeText(
-                    context!!.applicationContext,
-                    "Para añadir un post, tienes que configurar tu nombre de usuario",
-                    Toast.LENGTH_SHORT
-                ).show()
+                tostear("Para añadir un post, tienes que configurar tu nombre de usuario")
                 requestToHomeActivity.callUpdateProfile()
             } else {
                 requestToHomeActivity.callAddPostForm(PostFormFragment.ADDING_POST)
@@ -58,36 +66,33 @@ class ApiWrapperFragment : Fragment() {
         postAdapter = PostAdapter(posts, context)
         recyclerView.adapter = postAdapter
         loadPosts()
+
+        dataBaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = dataSnapshot.getValue(Post::class.java)
+                tostear("something updating")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                tostear("something went wrong on updating data")
+            }
+        })
     }
+
 
 
 
     fun loadPosts(): ArrayList<Post> {
         val posts: ArrayList<Post> = ArrayList()
-        val userId = auth.currentUser!!.uid
 
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                val post = dataSnapshot.getValue(Post::class.java)
-                if (post != null) {
-                    posts.add(post)
-                    postAdapter.notifyDataSetChanged()
-                }
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-            }
-        }
-        dataBase!!.child("/user-posts/$userId/").addValueEventListener(postListener)
         return posts
     }
 
     fun onPostCreate(post: Post) {
         val userId = auth.currentUser!!.uid
-        val key = dataBase!!.child("posts").child(userId).push().key
+        val key = dataBaseRef.child(DATABASE_POSTS_REF).child(userId).push().key
 
         if (key == null) {
             tostear("algo salio mal con la key para el post")
@@ -98,9 +103,9 @@ class ApiWrapperFragment : Fragment() {
         val postValues = post.toMap()
 
         val childUpdates = HashMap<String, Any?>()
-        childUpdates["/user-posts/$userId/$key"] = postValues
+        childUpdates["$DATABASE_POSTS_REF/$key"] = postValues
 
-        dataBase!!.updateChildren(childUpdates).addOnSuccessListener {
+        dataBaseRef.updateChildren(childUpdates).addOnSuccessListener {
             tostear("Se escribio exitosamente")
         }.addOnFailureListener{
             tostear("Algo definitivamente no esta saliendo bien")
