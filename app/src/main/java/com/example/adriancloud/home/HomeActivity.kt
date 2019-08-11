@@ -19,7 +19,7 @@ import com.example.adriancloud.home.lambda.LambdaReactorFragment
 import com.example.adriancloud.home.settings.UpdateUserActivity
 import com.example.adriancloud.home.wrapper.PostFormFragment
 import com.example.adriancloud.home.wrapper.ApiWrapperFragment
-import com.example.adriancloud.home.wrapper.Post
+import com.example.adriancloud.home.wrapper.model.Post
 import com.example.adriancloud.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -28,14 +28,14 @@ class HomeActivity : AppCompatActivity(),
     ApiWrapperFragment.ApiWrapperInterface,
     PostFormFragment.IPostFormReponse {
 
-
-
     private lateinit var auth: FirebaseAuth
 
     private val API_WRAPPER_TAG: String = "Api Wrapper"
     private val LAMBDA_REACTOR_TAG: String = "Lambda Reactor"
     private val POST_FORM_TAG: String = "Post Form"
     private var ACTIVE_TAG: String = LAMBDA_REACTOR_TAG
+
+    private var fragment: Fragment? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +79,9 @@ class HomeActivity : AppCompatActivity(),
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            if (fragment is PostFormFragment){
+                onCanceledPost((fragment as PostFormFragment).FORM_MODE)
+            }
             super.onBackPressed()
         }
     }
@@ -114,8 +117,8 @@ class HomeActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        var fragment: Fragment? = null
+        // Handle navigation mView item clicks here.
+        fragment = null
         var tag: String? = null
 
         when (item.itemId) {
@@ -131,7 +134,7 @@ class HomeActivity : AppCompatActivity(),
 
         if (fragment != null && tag != null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.home_container, fragment, tag)
+                .replace(R.id.home_container, fragment!!, tag)
                 .commit()
             updateCurrentFragment(tag)
         }
@@ -150,10 +153,9 @@ class HomeActivity : AppCompatActivity(),
     }
 
     // ApiWrapper action
-    override fun callAddPostForm(postFormMode: Int) {
+    override fun callAddPostForm() {
 
-        val postFormFragment = PostFormFragment()
-        postFormFragment.FORM_MODE = postFormMode
+        val postFormFragment = PostFormFragment(PostFormFragment.ADDING_POST)
 
         supportFragmentManager.beginTransaction()
             .hide(supportFragmentManager.findFragmentByTag(API_WRAPPER_TAG)!!)
@@ -161,6 +163,18 @@ class HomeActivity : AppCompatActivity(),
             .addToBackStack(POST_FORM_TAG)
             .commit()
         updateCurrentFragment(POST_FORM_TAG)
+    }
+
+    override fun callUpdatePostForm(post: Post) {
+        val postFormFragment = PostFormFragment(PostFormFragment.UPDATE_POST)
+
+        supportFragmentManager.beginTransaction()
+            .hide(supportFragmentManager.findFragmentByTag(API_WRAPPER_TAG)!!)
+            .add(R.id.home_container, postFormFragment, POST_FORM_TAG)
+            .addToBackStack(POST_FORM_TAG)
+            .commit()
+        updateCurrentFragment(POST_FORM_TAG)
+        postFormFragment.post = post
     }
 
 
@@ -190,7 +204,17 @@ class HomeActivity : AppCompatActivity(),
 
     // PostForm action
     override fun onUpdatedPost(post: Post) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val apiWrapperFrgmnt = supportFragmentManager
+            .findFragmentByTag(API_WRAPPER_TAG) as ApiWrapperFragment
+        val postFormFrgmnt = supportFragmentManager
+            .findFragmentByTag(POST_FORM_TAG) as PostFormFragment
+
+        supportFragmentManager.beginTransaction()
+            .remove(postFormFrgmnt)
+            .show(apiWrapperFrgmnt)
+            .commit()
+
+        apiWrapperFrgmnt.onPostUpdate(post)
     }
 
     override fun callUpdateProfile() {

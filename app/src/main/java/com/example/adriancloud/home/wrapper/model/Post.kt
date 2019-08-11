@@ -1,4 +1,4 @@
-package com.example.adriancloud.home.wrapper
+package com.example.adriancloud.home.wrapper.model
 
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
@@ -10,6 +10,7 @@ class Post (
 ) {
 
 
+    var id: String? = ""
     var uid: String? = ""
     var author: String? = ""
 
@@ -17,6 +18,7 @@ class Post (
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
+            "id" to id,
             "uid" to uid,
             "title" to title,
             "body" to body,

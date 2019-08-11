@@ -34,6 +34,7 @@
     <string name="cuerpo">Cuerpo</string>
     <string name="agregar_post">Agregar Post</string>
     <string name="a_ada_un_nuevo_post">Añada un nuevo Post</string>
+    <string name="modifique_el_post">Modifique el post</string>
     <string name="cancelar">Cancelar</string>
     <string name="editar_perfil">Editar Perfil</string>
     <string name="nombre_de_usuario">Nombre de usuario</string>
