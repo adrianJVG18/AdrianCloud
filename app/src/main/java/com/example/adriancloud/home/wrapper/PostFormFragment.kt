@@ -10,9 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.adriancloud.R
-import com.example.adriancloud.home.wrapper.model.Post
-import kotlinx.android.synthetic.main.activity_login.*
-import org.w3c.dom.Text
 
 
 class PostFormFragment(val formMode: Int) : Fragment() {
@@ -24,59 +21,65 @@ class PostFormFragment(val formMode: Int) : Fragment() {
     }
 
     val FORM_MODE: Int = formMode
-    lateinit var post: Post
+    lateinit var postUpdated: Post
 
     //Components
     lateinit var actionText: TextView
     lateinit var titleEdit: EditText
     lateinit var bodyEdit: EditText
+    lateinit var acceptPostButton: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_add_post_form, container, false)
+        return inflater.inflate(R.layout.fragment_post_form, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         actionText = view.findViewById(R.id.postform_textV_post_action)
-        val acceptPostButton: Button = view.findViewById(R.id.bttn_accept_post)
+        acceptPostButton = view.findViewById(R.id.bttn_accept_post)
         val cancelButton: Button = view.findViewById(R.id.bttn_cancel_post)
         titleEdit = view.findViewById(R.id.postform_edit_title)
         bodyEdit = view.findViewById(R.id.postform_edit_body)
 
-        updateIntoCalledMode()
+        updateUI()
 
         acceptPostButton.setOnClickListener {
-            val post = Post(titleEdit.text.toString(), bodyEdit.text.toString())
+            if (titleEdit.text.isEmpty()) {
+                val errorMessage = "El post al menos debe contener un titulo!"
+                Toast.makeText(context!!.applicationContext, errorMessage, Toast.LENGTH_SHORT).show()
+            } else {
+                when (FORM_MODE) {
+                    ADDING_POST -> {
+                        val post = Post(titleEdit.text.toString(), bodyEdit.text.toString())
+                        postResponse.onCreatedPost(post)
+                    }
+                    UPDATE_POST -> {
+                        postUpdated.title = titleEdit.text.toString()
+                        postUpdated.body = bodyEdit.text.toString()
 
-            when (FORM_MODE){
-                ADDING_POST -> {
-                    postResponse.onCreatedPost(post)
-                }
-                UPDATE_POST -> {
-                    postResponse.onUpdatedPost(post)
-                }
-                else -> {
-                    val errorMessage = "El post al menos debe contener un titulo!"
-                    Toast.makeText(context!!.applicationContext, errorMessage, Toast.LENGTH_SHORT).show()
+                        postResponse.onUpdatedPost(postUpdated)
+                    }
                 }
             }
         }
+
 
         cancelButton.setOnClickListener {
             postResponse.onCanceledPost(FORM_MODE)
         }
     }
 
-    private fun updateIntoCalledMode() {
-        when (FORM_MODE){
+    private fun updateUI() {
+        when (FORM_MODE) {
             ADDING_POST -> {
                 actionText.text = context!!.getString(R.string.a_ada_un_nuevo_post)
             }
             UPDATE_POST -> {
                 actionText.text = context!!.getString(R.string.modifique_el_post)
-                titleEdit.setText(post.title)
-                bodyEdit.setText(post.body)
+                acceptPostButton.text = context!!.getString(R.string.modificar_post)
+                titleEdit.setText(postUpdated.title)
+                bodyEdit.setText(postUpdated.body)
             }
         }
     }

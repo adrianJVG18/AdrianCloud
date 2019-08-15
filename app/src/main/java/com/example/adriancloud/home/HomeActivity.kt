@@ -19,7 +19,7 @@ import com.example.adriancloud.home.lambda.LambdaReactorFragment
 import com.example.adriancloud.home.settings.UpdateUserActivity
 import com.example.adriancloud.home.wrapper.PostFormFragment
 import com.example.adriancloud.home.wrapper.ApiWrapperFragment
-import com.example.adriancloud.home.wrapper.model.Post
+import com.example.adriancloud.home.wrapper.Post
 import com.example.adriancloud.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -174,7 +174,7 @@ class HomeActivity : AppCompatActivity(),
             .addToBackStack(POST_FORM_TAG)
             .commit()
         updateCurrentFragment(POST_FORM_TAG)
-        postFormFragment.post = post
+        postFormFragment.postUpdated = post
     }
 
 
@@ -195,8 +195,8 @@ class HomeActivity : AppCompatActivity(),
     override fun onCanceledPost(mode: Int) {
         var message = "error"
         when (mode) {
-            PostFormFragment.ADDING_POST -> message = "Se ha cancelado el nuevo post"
-            PostFormFragment.UPDATE_POST -> message = "Se ha cancelado la edicion del post"
+            PostFormFragment.ADDING_POST -> message = "Se ha cancelado el nuevo postUpdated"
+            PostFormFragment.UPDATE_POST -> message = "Se ha cancelado la edicion del postUpdated"
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         onBackPressed()

@@ -24,7 +24,6 @@
               android:textSize="14sp"
               android:textColor="@color/midGray"
               android:textColorHint="@color/midGray"
-              android:hint="@string/testing_message"
               android:padding="8dp"
               android:lines="3"/>
 

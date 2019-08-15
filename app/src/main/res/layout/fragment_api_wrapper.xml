@@ -21,7 +21,8 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
             android:src="@drawable/send_paper_plane_icon"
-            android:backgroundTint="@color/colorPrimary"
+            android:foregroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorPrimary"
     />
 
 </RelativeLayout>

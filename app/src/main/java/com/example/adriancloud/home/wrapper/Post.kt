@@ -1,4 +1,4 @@
-package com.example.adriancloud.home.wrapper.model
+package com.example.adriancloud.home.wrapper
 
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties

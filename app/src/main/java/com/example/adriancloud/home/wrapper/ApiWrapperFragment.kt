@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adriancloud.R
-import com.example.adriancloud.home.wrapper.model.Post
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -73,7 +72,7 @@ class ApiWrapperFragment : Fragment() {
         bttnAddPost = view!!.findViewById(R.id.bttn_call_addpost_form)
         bttnAddPost.setOnClickListener {
             if (auth.currentUser?.displayName == null) {
-                tostear("Para añadir un post, tienes que configurar tu nombre de usuario")
+                tostear("Para añadir un postUpdated, tienes que configurar tu nombre de usuario")
                 requestToHomeActivity.callUpdateProfile()
             } else {
                 requestToHomeActivity.callAddPostForm()
@@ -120,7 +119,7 @@ class ApiWrapperFragment : Fragment() {
         val key = dataBasePostsRef.push().key
 
         if (key == null) {
-            tostear("algo salio mal con la key para el post")
+            tostear("algo salio mal con la key para el postUpdated")
             return
         }
         post.uid = userId
@@ -135,13 +134,13 @@ class ApiWrapperFragment : Fragment() {
             .addOnSuccessListener {
                 //Evento cuando se posteo exitosamente
             }.addOnFailureListener {
-                tostear("Algo salio mal al enviar el post")
+                tostear("Algo salio mal al enviar el postUpdated")
             }
 
     }
 
     fun onPostUpdate(post: Post){
-        
+        dataBasePostsRef.child("${post.id}").setValue(post)
     }
 
     fun tostear(message: String) {
