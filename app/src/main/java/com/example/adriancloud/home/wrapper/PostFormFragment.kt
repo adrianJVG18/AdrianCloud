@@ -1,13 +1,11 @@
 package com.example.adriancloud.home.wrapper
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.adriancloud.R
 
@@ -28,6 +26,7 @@ class PostFormFragment(val formMode: Int) : Fragment() {
     lateinit var titleEdit: EditText
     lateinit var bodyEdit: EditText
     lateinit var acceptPostButton: Button
+    lateinit var deletePostButton: ImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_post_form, container, false)
@@ -41,6 +40,7 @@ class PostFormFragment(val formMode: Int) : Fragment() {
         val cancelButton: Button = view.findViewById(R.id.bttn_cancel_post)
         titleEdit = view.findViewById(R.id.postform_edit_title)
         bodyEdit = view.findViewById(R.id.postform_edit_body)
+        deletePostButton = view.findViewById(R.id.bttn_delete_post)
 
         updateUI()
 
@@ -74,12 +74,31 @@ class PostFormFragment(val formMode: Int) : Fragment() {
         when (FORM_MODE) {
             ADDING_POST -> {
                 actionText.text = context!!.getString(R.string.a_ada_un_nuevo_post)
+                deletePostButton.visibility = View.GONE
             }
             UPDATE_POST -> {
                 actionText.text = context!!.getString(R.string.modifique_el_post)
                 acceptPostButton.text = context!!.getString(R.string.modificar_post)
                 titleEdit.setText(postUpdated.title)
                 bodyEdit.setText(postUpdated.body)
+                deletePostButton.visibility = View.VISIBLE
+                deletePostButton.setOnClickListener {
+                    val builder = AlertDialog.Builder(context)
+                    builder.setTitle("Eliminar Post")
+                    builder.setMessage("Estas a punto de eliminar el post seleccionado, " +
+                            "estas seguro que deseas eliminarlo? Despues de esta accion no " +
+                            "podra ser recuperado")
+                    builder.setPositiveButton("Eliminar"){ dialog, which ->
+                        postResponse.onPostDelete(postUpdated)
+                    }
+                    builder.setNegativeButton("No deseo eliminarlo"){dialog, which ->
+                        Toast.makeText(context, "menos mal te arrepentiste, iba a extrañar ese post",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+
+                }
             }
         }
     }
@@ -97,5 +116,6 @@ class PostFormFragment(val formMode: Int) : Fragment() {
         fun onCreatedPost(post: Post)
         fun onUpdatedPost(post: Post)
         fun onCanceledPost(mode: Int)
+        fun onPostDelete(post: Post)
     }
 }

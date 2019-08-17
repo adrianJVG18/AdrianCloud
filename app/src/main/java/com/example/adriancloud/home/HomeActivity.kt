@@ -27,6 +27,7 @@ class HomeActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
     ApiWrapperFragment.ApiWrapperInterface,
     PostFormFragment.IPostFormReponse {
+    
 
     private lateinit var auth: FirebaseAuth
 
@@ -188,7 +189,7 @@ class HomeActivity : AppCompatActivity(),
             .show(apiWrapperFrgmnt)
             .commit()
 
-        apiWrapperFrgmnt.onPostCreate(post)
+        apiWrapperFrgmnt.onPostCreated(post)
     }
 
     // PostForm action
@@ -214,7 +215,21 @@ class HomeActivity : AppCompatActivity(),
             .show(apiWrapperFrgmnt)
             .commit()
 
-        apiWrapperFrgmnt.onPostUpdate(post)
+        apiWrapperFrgmnt.onPostUpdated(post)
+    }
+
+    override fun onPostDelete(post: Post) {
+        val apiWrapperFrgmnt = supportFragmentManager
+            .findFragmentByTag(API_WRAPPER_TAG) as ApiWrapperFragment
+        val postFormFrgmnt = supportFragmentManager
+            .findFragmentByTag(POST_FORM_TAG) as PostFormFragment
+
+        supportFragmentManager.beginTransaction()
+            .remove(postFormFrgmnt)
+            .show(apiWrapperFrgmnt)
+            .commit()
+
+        apiWrapperFrgmnt.onDeletedPost(post)
     }
 
     override fun callUpdateProfile() {

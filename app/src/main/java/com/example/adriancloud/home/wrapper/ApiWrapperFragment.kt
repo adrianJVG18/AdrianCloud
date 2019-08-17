@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.adriancloud.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +30,7 @@ class ApiWrapperFragment : Fragment() {
     lateinit var posts: MutableList<Post>
 
     internal var context: Context? = null
+    internal var firstTimeLoading = true
 
     //Firebase
     private lateinit var dataBasePostsRef: DatabaseReference
@@ -36,6 +38,7 @@ class ApiWrapperFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
     // Components
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     lateinit var recyclerView: RecyclerView
     lateinit var postAdapter: PostAdapter
     lateinit var bttnAddPost: FloatingActionButton
@@ -93,6 +96,12 @@ class ApiWrapperFragment : Fragment() {
         }
 
         recyclerView.adapter = postAdapter
+
+        swipeRefreshLayout = view!!.findViewById(R.id.swipe_to_refresh)
+        swipeRefreshLayout.setOnRefreshListener {
+            postAdapter.addPosts(posts)
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     fun setDatabaseListeners() {
@@ -105,17 +114,22 @@ class ApiWrapperFragment : Fragment() {
                 if (p0.exists()){
                     posts.clear()
                     for (p in p0.children){
-                        val post = p.getValue(Post::class.java)
-                        posts.add(post!!)
+                        val post = p.getValue(Post::class.java) as Post
+                        posts.add(post)
                     }
-                    postAdapter.addPosts(posts)
+                    if (firstTimeLoading){
+                        postAdapter.addPosts(posts)
+                        firstTimeLoading = false
+                    }
+                    else
+                        tostear("Hey! refresh to check out what happened")
                 }
             }
 
         })
     }
 
-    fun onPostCreate(post: Post) {
+    fun onPostCreated(post: Post) {
         val key = dataBasePostsRef.push().key
 
         if (key == null) {
@@ -139,8 +153,12 @@ class ApiWrapperFragment : Fragment() {
 
     }
 
-    fun onPostUpdate(post: Post){
+    fun onPostUpdated(post: Post){
         dataBasePostsRef.child("${post.id}").setValue(post)
+    }
+
+    fun onDeletedPost(post: Post){
+        dataBasePostsRef.child("${post.id}").setValue(null)
     }
 
     fun tostear(message: String) {

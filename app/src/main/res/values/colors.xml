@@ -13,5 +13,6 @@
 
     <color name="yellowAsFuck">#FFEA00</color>
     <color name="softRed">#E53935</color>
+    <color name="transparentRed">#E6E53935</color>
 
 </resources>

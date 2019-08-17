@@ -18,10 +18,8 @@ class PostAdapter constructor(val context: Context, val clickListener: (Post)->U
         this.posts = posts
         notifyDataSetChanged()
     }
-    fun addPost(post: Post){
-        this.posts.add(post)
-        notifyDataSetChanged()
-    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val v = LayoutInflater
