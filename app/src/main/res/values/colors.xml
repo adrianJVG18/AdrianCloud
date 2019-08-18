@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="semi_transparent">#E6FFFFFF</color>
+    <color name="almost_transparent">#BFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
     <color name="darkGray">#4b4b4b</color>

@@ -41,4 +41,5 @@
     <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="actualizar_perfil">Actualizar perfil</string>
     <string name="for_deleting_received_post">For deleting received Post</string>
+    <string name="confirm_post_adding_updating">Confirm Post adding/updating</string>
 </resources>

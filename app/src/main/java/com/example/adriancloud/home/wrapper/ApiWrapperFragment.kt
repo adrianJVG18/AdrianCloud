@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -85,16 +86,14 @@ class ApiWrapperFragment : Fragment() {
         //Configure Recycler View
         recyclerView = view!!.findViewById(R.id.apiwrapper_recyclerView)
 
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = GridLayoutManager(context, 2)
         recyclerView.layoutManager = layoutManager
 
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, layoutManager.orientation)
-        recyclerView.addItemDecoration(dividerItemDecoration)
 
         postAdapter = PostAdapter(context!!) {
+            //Here is specified the action on click
             requestToHomeActivity.callUpdatePostForm(it)
         }
-
         recyclerView.adapter = postAdapter
 
         swipeRefreshLayout = view!!.findViewById(R.id.swipe_to_refresh)

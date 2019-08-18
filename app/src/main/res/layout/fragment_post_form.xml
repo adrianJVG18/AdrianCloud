@@ -7,11 +7,11 @@
 
     <ImageView
             android:id="@+id/addpost_logo"
-            android:layout_width="350dp"
-            android:layout_height="300dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/zelda_logo"
-            android:tint="@color/lightGray"/>
+            android:src="@drawable/post_it_icon_transparent"
+    />
 
     <TextView
             android:id="@+id/postform_textV_post_action"
@@ -26,24 +26,27 @@
 
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/semi_transparent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="52dp"
+
             app:cardCornerRadius="20dp"
             android:layout_alignTop="@id/addpost_logo"
-            android:layout_marginTop="64dp">
+            android:layout_marginTop="90dp"
+            android:elevation="32dp">
 
         <EditText
                 android:id="@+id/postform_edit_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@color/transparent"
                 android:gravity="center"
                 android:hint="@string/titulo"
-                android:lines="1"
-                android:inputType="text"
+                android:lines="2"
+                android:inputType="text|textMultiLine|textCapSentences"
                 android:textSize="20sp"
                 android:textStyle="bold|italic"/>
 
@@ -53,21 +56,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/semi_transparent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignBottom="@id/addpost_logo"
-            android:layout_marginBottom="136dp"
-            app:cardCornerRadius="20dp">
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/title_container"
+            android:layout_marginTop="30dp"
+            app:cardCornerRadius="20dp"
+            android:elevation="32dp">
 
         <EditText
                 android:id="@+id/postform_edit_body"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
                 android:background="@color/transparent"
                 android:gravity="center"
                 android:hint="@string/cuerpo"
-                android:lines="3"
-                android:inputType="text"
+                android:lines="6"
+                android:inputType="text|textMultiLine|textCapSentences"
                 android:textSize="20sp"
                 android:textStyle="bold|italic"/>
 
@@ -82,42 +87,40 @@
             android:padding="16dp"
             android:backgroundTint="@color/transparent"
             android:tint="@color/transparentRed"
-            android:layout_alignBottom="@id/addpost_logo"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:contentDescription="@string/for_deleting_received_post"/>
 
-    <Button
+    <ImageButton
             android:id="@+id/bttn_accept_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="48dp"
-
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/circle_checkmark"
+            android:backgroundTint="@color/transparent"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/agregar_post"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:backgroundTint="@android:color/black"
-            android:textStyle="italic"/>
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/confirm_post_adding_updating"/>
 
-    <Button
+    <ImageButton
             android:id="@+id/bttn_cancel_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/circled_cancel_icon_24dp"
+            android:backgroundTint="@color/transparent"
+            android:background="@color/transparent"
+            android:tint="@color/midGray"
+            android:scaleType="fitXY"
 
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
 
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="@string/cancelar"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:backgroundTint="@color/softRed"
-            android:textStyle="italic"/>
+
+            android:contentDescription="@string/cancelar"/>
 
 </RelativeLayout>

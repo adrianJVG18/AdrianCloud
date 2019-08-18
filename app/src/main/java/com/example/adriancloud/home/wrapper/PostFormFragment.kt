@@ -1,10 +1,13 @@
 package com.example.adriancloud.home.wrapper
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.adriancloud.R
@@ -25,7 +28,7 @@ class PostFormFragment(val formMode: Int) : Fragment() {
     lateinit var actionText: TextView
     lateinit var titleEdit: EditText
     lateinit var bodyEdit: EditText
-    lateinit var acceptPostButton: Button
+    lateinit var acceptPostButton: ImageButton
     lateinit var deletePostButton: ImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,7 +40,7 @@ class PostFormFragment(val formMode: Int) : Fragment() {
 
         actionText = view.findViewById(R.id.postform_textV_post_action)
         acceptPostButton = view.findViewById(R.id.bttn_accept_post)
-        val cancelButton: Button = view.findViewById(R.id.bttn_cancel_post)
+        val cancelButton: ImageButton = view.findViewById(R.id.bttn_cancel_post)
         titleEdit = view.findViewById(R.id.postform_edit_title)
         bodyEdit = view.findViewById(R.id.postform_edit_body)
         deletePostButton = view.findViewById(R.id.bttn_delete_post)
@@ -78,7 +81,6 @@ class PostFormFragment(val formMode: Int) : Fragment() {
             }
             UPDATE_POST -> {
                 actionText.text = context!!.getString(R.string.modifique_el_post)
-                acceptPostButton.text = context!!.getString(R.string.modificar_post)
                 titleEdit.setText(postUpdated.title)
                 bodyEdit.setText(postUpdated.body)
                 deletePostButton.visibility = View.VISIBLE

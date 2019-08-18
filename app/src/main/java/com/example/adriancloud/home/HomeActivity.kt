@@ -1,5 +1,6 @@
 package com.example.adriancloud.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.GravityCompat
@@ -10,13 +11,15 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.adriancloud.R
 import com.example.adriancloud.home.lambda.LambdaReactorFragment
-import com.example.adriancloud.home.settings.UpdateUserActivity
+import com.example.adriancloud.home.settings.SettingsActivity
 import com.example.adriancloud.home.wrapper.PostFormFragment
 import com.example.adriancloud.home.wrapper.ApiWrapperFragment
 import com.example.adriancloud.home.wrapper.Post
@@ -87,6 +90,15 @@ class HomeActivity : AppCompatActivity(),
         }
     }
 
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (currentFocus != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home, menu)
@@ -112,7 +124,7 @@ class HomeActivity : AppCompatActivity(),
         return true
     }
     private fun launchEditProfileActivity(): Boolean{
-        val intent = Intent(this, UpdateUserActivity::class.java)
+        val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
         return true
     }

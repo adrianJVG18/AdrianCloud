@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adriancloud.R
 import kotlinx.android.synthetic.main.wrapper_post_item.view.*
+import kotlinx.android.synthetic.main.wrapper_postit_item.view.*
 
 
 class PostAdapter constructor(val context: Context, val clickListener: (Post)->Unit)
@@ -24,7 +25,7 @@ class PostAdapter constructor(val context: Context, val clickListener: (Post)->U
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val v = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.wrapper_post_item, parent, false)
+            .inflate(R.layout.wrapper_postit_item, parent, false)
         return PostViewHolder(v)
     }
 
@@ -38,8 +39,8 @@ class PostAdapter constructor(val context: Context, val clickListener: (Post)->U
     inner class PostViewHolder(var mView: View) : RecyclerView.ViewHolder(mView){
 
         fun bind(post: Post, clickListener: (Post) -> Unit) {
-            mView.wrapper_post_title.text = post.title
-            mView.wrapper_post_body.text = post.body
+            mView.post_it_title.text = post.title
+            mView.post_it_body.text = post.body
             mView.setOnClickListener{ clickListener(post)}
         }
     }
